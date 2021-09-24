@@ -241,7 +241,7 @@ class WebSocketHandler(StreamRequestHandler):
         for message_byte in self.read_bytes(payload_length):
             message_byte ^= masks[len(message_bytes) % 4]
             message_bytes.append(message_byte)
-        opcode_handler(self, message_bytes.decode('utf8'))
+        opcode_handler(self, message_bytes.decode('utf8', errors='ignore'))
 
     def send_message(self, message):
         self.send_text(message)
@@ -299,7 +299,7 @@ class WebSocketHandler(StreamRequestHandler):
         assert http_get.upper().startswith('GET')
         # remaining should be headers
         while True:
-            header = self.rfile.readline().decode().strip()
+            header = self.rfile.readline().decode(encoding="utf8", errors='ignore').strip()
             if not header:
                 break
             head, value = header.split(':', 1)
