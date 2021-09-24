@@ -295,7 +295,7 @@ class WebSocketHandler(StreamRequestHandler):
     def read_http_headers(self):
         headers = {}
         # first line should be HTTP GET
-        http_get = self.rfile.readline().decode().strip()
+        http_get = self.rfile.readline().decode(encoding="utf8", errors='ignore').strip()
         assert http_get.upper().startswith('GET')
         # remaining should be headers
         while True:
